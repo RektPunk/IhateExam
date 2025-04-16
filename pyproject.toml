@@ -7,7 +7,6 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
-pre-commit = "^4.2.0"
 markitdown = {extras = ["docx", "pdf", "pptx", "xlsx"], version = "^0.1.1"}
 langchain = "^0.3.23"
 chromadb = "^1.0.4"
@@ -17,6 +16,9 @@ openai = "^1.74.0"
 langchain-openai = "^0.3.12"
 opentelemetry-exporter-otlp-proto-grpc = "1.25.0"
 
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^4.2.0"
 
 [build-system]
 requires = ["poetry-core"]
