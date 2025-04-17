@@ -15,6 +15,7 @@ python-dotenv = "^1.1.0"
 openai = "^1.74.0"
 langchain-openai = "^0.3.12"
 opentelemetry-exporter-otlp-proto-grpc = "1.25.0"
+streamlit = "^1.44.1"
 
 
 [tool.poetry.group.dev.dependencies]
