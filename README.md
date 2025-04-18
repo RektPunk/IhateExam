@@ -57,5 +57,5 @@ chmod +x ingest_docs.sh
 Once everything is set up:
 
 ```bash
-python app.py
+streamlit run app.py
 ```
