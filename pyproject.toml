@@ -9,13 +9,13 @@ readme = "README.md"
 python = "^3.12"
 markitdown = {extras = ["docx", "pdf", "pptx", "xlsx"], version = "^0.1.1"}
 langchain = "^0.3.23"
-chromadb = "^1.0.4"
 langchain-community = "^0.3.21"
 python-dotenv = "^1.1.0"
 openai = "^1.74.0"
 langchain-openai = "^0.3.12"
 opentelemetry-exporter-otlp-proto-grpc = "1.25.0"
 streamlit = "^1.44.1"
+chromadb = "^1.0.5"
 
 
 [tool.poetry.group.dev.dependencies]
