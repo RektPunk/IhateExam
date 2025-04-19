@@ -18,6 +18,11 @@ load_dotenv()
 VECTORSTORE_DIR = "vectorstore"
 EMBEDDING_MODEL = OpenAIEmbeddings(api_key=os.environ["OPENAI_API_KEY"])
 LLM = ChatOpenAI(temperature=0, api_key=os.environ["OPENAI_API_KEY"])
+VECTORSTORE_NAMES: list[str] = [
+    name
+    for name in os.listdir(VECTORSTORE_DIR)
+    if os.path.isdir(os.path.join(VECTORSTORE_DIR, name))
+]
 
 
 def format_docs(docs: list[Document]):
@@ -51,30 +56,32 @@ def generate_answer(subject_name: str, question: str) -> str:
     return rag_chain.invoke(question)
 
 
-st.title("Chat with Your Vectorstore")
-
-store_names: list[str] = [
-    name
-    for name in os.listdir(VECTORSTORE_DIR)
-    if os.path.isdir(os.path.join(VECTORSTORE_DIR, name))
-]
-
-if not store_names:
+st.subheader("Plz, this is my final boss battle in this life.")
+if not VECTORSTORE_NAMES:
     st.warning("No vector stores found in the 'vectorstore/' directory.")
     st.stop()
 
-subject = st.sidebar.radio("Select a subject:", store_names)
+if "messages" not in st.session_state:
+    st.session_state.messages = {subject: [] for subject in VECTORSTORE_NAMES}
 
-question = st.chat_input("💬 Ask me anything about this subject")
+subject = st.sidebar.radio("Select a subject:", VECTORSTORE_NAMES)
+st.sidebar.button(
+    "Clear chat history",
+    on_click=lambda: st.session_state.messages.update({subject: []}),
+)
 
-if question:
+for message in st.session_state.messages[subject]:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
+
+if question := st.chat_input("💬 Ask me anything about this subject"):
     with st.chat_message("user"):
         st.markdown(question)
-
+    st.session_state.messages[subject].append({"role": "user", "content": question})
     answer = generate_answer(
         subject_name=subject,
         question=question,
     )
-
     with st.chat_message("assistant"):
         st.markdown(answer)
+    st.session_state.messages[subject].append({"role": "assistant", "content": answer})
