@@ -1,4 +1,6 @@
+import json
 import os
+from datetime import datetime
 from functools import lru_cache
 
 import streamlit as st
@@ -56,6 +58,17 @@ def generate_answer(subject_name: str, question: str) -> str:
     return rag_chain.invoke(question)
 
 
+def save_chat_history(subject: str) -> None:
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"chat_{subject}_{timestamp}.json"
+    filepath = os.path.join("chat_history", filename)
+    os.makedirs("chat_history", exist_ok=True)
+
+    with open(filepath, "w", encoding="utf-8") as f:
+        json.dump(st.session_state.messages[subject], f, ensure_ascii=False, indent=2)
+    st.success(f"Chat history saved as '{filename}'")
+
+
 st.subheader("Plz, this is my final boss battle in this life.")
 if not VECTORSTORE_NAMES:
     st.warning("No vector stores found in the 'vectorstore/' directory.")
@@ -68,6 +81,12 @@ subject = st.sidebar.radio("Select a subject:", VECTORSTORE_NAMES)
 st.sidebar.button(
     "Clear chat history",
     on_click=lambda: st.session_state.messages.update({subject: []}),
+)
+
+st.sidebar.button(
+    "Save chat history",
+    on_click=save_chat_history,
+    args=(subject,),
 )
 
 for message in st.session_state.messages[subject]:
