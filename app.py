@@ -36,7 +36,7 @@ def format_docs(docs: list[Document]):
 def load_retriever(subject_name: str) -> VectorStoreRetriever:
     persist_dir = os.path.join(VECTORSTORE_DIR, subject_name)
     vectordb = Chroma(persist_directory=persist_dir, embedding_function=EMBEDDING_MODEL)
-    return vectordb.as_retriever(search_kwargs={"k": 5})
+    return vectordb.as_retriever(search_kwargs={"k": 10})
 
 
 @st.cache_resource(show_spinner=False)
