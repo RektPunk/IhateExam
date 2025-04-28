@@ -19,7 +19,7 @@ from prompt import TEMPLATE
 load_dotenv()
 VECTORSTORE_DIR = "vectorstore"
 EMBEDDING_MODEL = OpenAIEmbeddings(api_key=os.environ["OPENAI_API_KEY"])
-LLM = ChatOpenAI(temperature=0, api_key=os.environ["OPENAI_API_KEY"])
+LLM = ChatOpenAI(model="gpt-4o", api_key=os.environ["OPENAI_API_KEY"])
 VECTORSTORE_NAMES: list[str] = [
     name
     for name in os.listdir(VECTORSTORE_DIR)
@@ -36,7 +36,7 @@ def format_docs(docs: list[Document]):
 def load_retriever(subject_name: str) -> VectorStoreRetriever:
     persist_dir = os.path.join(VECTORSTORE_DIR, subject_name)
     vectordb = Chroma(persist_directory=persist_dir, embedding_function=EMBEDDING_MODEL)
-    return vectordb.as_retriever(search_kwargs={"k": 10})
+    return vectordb.as_retriever(search_kwargs={"k": 7})
 
 
 @st.cache_resource(show_spinner=False)
