@@ -9,8 +9,12 @@ for ext in "${EXTENSIONS[@]}"; do
     find "$TARGET_DIR" -type f -name "*.${ext}" | while read -r file; do
         base="${file%.*}"
         output="${base}.md"
-        echo "Converting: $file -> $output"
-        markitdown "$file" > "$output"
+        if [ ! -f "$output" ]; then
+            echo "Converting: $file -> $output"
+            markitdown "$file" > "$output"
+        else
+            echo "Skipping: $output already exists"
+        fi
     done
 done
 

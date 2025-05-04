@@ -176,3 +176,4 @@ cython_debug/
 data/
 vectorstore/
 chat_history/
+.DS_Store
