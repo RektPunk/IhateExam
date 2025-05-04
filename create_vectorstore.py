@@ -22,7 +22,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     embedding = OpenAIEmbeddings(api_key=os.getenv("OPENAI_API_KEY"))
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=300, chunk_overlap=50)
 
     for subject in os.listdir(args.directory):
         subject_path = os.path.join(args.directory, subject)
